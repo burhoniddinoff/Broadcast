@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityMainBinding::bind)
     private val shared = MySharedPreference
 
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
