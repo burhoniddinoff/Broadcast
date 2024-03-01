@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         initSwipe()
 
+
+
     }
 
 
