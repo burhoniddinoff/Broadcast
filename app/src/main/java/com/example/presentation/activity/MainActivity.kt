@@ -1,5 +1,6 @@
 package com.example.presentation.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.broadcast.R
 import com.example.broadcast.databinding.ActivityMainBinding
-import com.example.data.MySharedPreference
+import com.example.presentation.MySharedPreference
+import com.example.presentation.service.MyService
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        startService(Intent(this, MyService::class.java))
 
         initSwipe()
     }

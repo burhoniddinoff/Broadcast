@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.example.data.MySharedPreference
+import com.example.presentation.MySharedPreference
 
 class MyReceiver : BroadcastReceiver() {
 

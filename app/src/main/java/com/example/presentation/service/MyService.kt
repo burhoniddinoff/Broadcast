@@ -6,66 +6,51 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.MediaPlayer
-import android.media.RingtoneManager
 import android.os.Build
 import android.os.IBinder
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.broadcast.R
 import com.example.presentation.activity.MainActivity
 import com.example.presentation.broadcast.MyReceiver
+import java.util.Locale
 
-class MyService : Service() {
+class MyService : Service(), TextToSpeech.OnInitListener {
 
+    private lateinit var tts: TextToSpeech
     private val myReceiver = MyReceiver()
     private val notificationChannelId = "DEMO"
 
     override fun onCreate() {
         super.onCreate()
+
         createChannel()
         startMyService()
 
-//        val intentFilter = IntentFilter()
-//        intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-//        registerReceiver(myReceiver, intentFilter)
-//
-//        myReceiver.bluetoothClick = {
-//            playNotificationSound(this)
-//        }
-
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("TTT", "MyService -> onStartCommand ")
         val intentFilter = IntentFilter().apply {
             addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
         }
         registerReceiver(myReceiver, intentFilter)
 
         myReceiver.bluetoothClick = {
-            playNotificationSound(this)
+            speakOut(it)
         }
 
-        return START_STICKY
+        tts = TextToSpeech(this, this)
     }
 
-    private fun playNotificationSound(context: Context?) {
-        Log.d("TTT", "MyReceiver -> playNotificationSound ")
+//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        Log.d("TTT", "MyService -> onStartCommand ")
+//
+//
+//        return START_STICKY
+//    }
 
-        try {
-            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val mediaPlayer = MediaPlayer.create(context, notification)
-            mediaPlayer.setOnCompletionListener {
-                mediaPlayer.release()
-            }
-            mediaPlayer.start()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    private fun speakOut(text: String) {
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
     private fun createChannel() {
@@ -107,5 +92,19 @@ class MyService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts.setLanguage(Locale.US)
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "Язык не поддерживается")
+            } else {
+
+            }
+        } else {
+            Log.e("TTS", "Инициализация не удалась")
+        }
+
     }
 }

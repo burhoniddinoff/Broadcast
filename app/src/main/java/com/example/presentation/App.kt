@@ -1,7 +1,6 @@
-package com.example.app
+package com.example.presentation
 
 import android.app.Application
-import com.example.data.MySharedPreference
 
 class App : Application() {
 
