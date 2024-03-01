@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Broadcast</string>
+    <string name="event_app">Event app</string>
+    <string name="internet">Internet</string>
+    <string name="wifi">Wifi</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="screen">Screen on or of</string>
+    <string name="call">Call</string>
+</resources>
