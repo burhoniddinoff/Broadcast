@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         startService(Intent(this, MyService::class.java))
 
         initSwipe()
+
     }
 
 
