@@ -21,6 +21,7 @@ import androidx.core.app.NotificationCompat
 import com.example.broadcast.R
 import com.example.presentation.activity.MainActivity
 import com.example.presentation.broadcast.MyReceiver
+import com.example.presentation.myLog
 import java.util.Locale
 
 class MyService : Service(), TextToSpeech.OnInitListener {
@@ -50,6 +51,7 @@ class MyService : Service(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(this, this)
         batteryChangeReceiver.listener = {
             speakOut(it)
+            "$it text speakOut()".myLog()
         }
 
         createChanel()
@@ -62,7 +64,7 @@ class MyService : Service(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts.setLanguage(Locale("ru", "RU"))
+            val result = tts.setLanguage(Locale.JAPANESE)
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
                 Log.e("TTS", "Язык не поддерживается")
         } else Log.e("TTS", "Инициализация не удалась")
